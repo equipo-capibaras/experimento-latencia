@@ -20,6 +20,7 @@ resource "google_cloud_run_v2_service" "default" {
   deletion_protection = false
 
   template {
+    service_account = google_service_account.default.email
     containers {
       name = "app"
       # Note: This is not the actual image of the service as container lifecycle is managed outside of terraform
