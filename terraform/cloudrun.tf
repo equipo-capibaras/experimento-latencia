@@ -20,11 +20,35 @@ resource "google_cloud_run_v2_service" "default" {
   deletion_protection = false
 
   template {
+    execution_environment = "EXECUTION_ENVIRONMENT_GEN2"
     service_account = google_service_account.default.email
+
     containers {
       name = "app"
       # Note: This is not the actual image of the service as container lifecycle is managed outside of terraform
       image = "us-docker.pkg.dev/cloudrun/container/hello"
+
+      env {
+        name = "ENABLE_CLOUD_LOGGING"
+        value = "1"
+      }
+
+      startup_probe {
+        http_get {
+          path = "/ping"
+        }
+      }
+
+      liveness_probe {
+        http_get {
+          path = "/ping"
+        }
+      }
+
+      resources {
+        cpu_idle = true
+        startup_cpu_boost = true
+      }
     }
   }
 
