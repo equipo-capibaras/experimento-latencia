@@ -1,17 +1,17 @@
-import os
 from flask import Flask
 from blueprints import BlueprintHealth, BlueprintInvoice
 from repositories import InvoiceRepository
 from repositories.firestore import FirestoreInvoiceRepository
-from gcp import setup_cloud_logging
+from gcp import setup_cloud_logging, setup_cloud_trace
 
 API_PREFIX = "/v1/invoices"
 
 def create_app():
-    if os.getenv('ENABLE_CLOUD_LOGGING') == '1':
-        setup_cloud_logging()
+    setup_cloud_logging()
 
     app = Flask(__name__)
+
+    setup_cloud_trace(app)
 
     app.repositories = {InvoiceRepository: FirestoreInvoiceRepository()}
 

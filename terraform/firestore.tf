@@ -15,7 +15,7 @@ resource "google_firestore_database" "default" {
   depends_on = [ google_project_service.firestore ]
 }
 
-resource "google_project_iam_member" "project" {
+resource "google_project_iam_member" "firestore" {
   project = local.project_id
   role    = "roles/datastore.user"
   member  = "serviceAccount:${google_service_account.default.email}"
