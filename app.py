@@ -15,7 +15,7 @@ def create_app():
 
     app.repositories = {InvoiceRepository: FirestoreInvoiceRepository()}
 
-    app.register_blueprint(BlueprintHealth, url_prefix=API_PREFIX)
+    app.register_blueprint(BlueprintHealth)
     app.register_blueprint(BlueprintInvoice, url_prefix=API_PREFIX)
 
     return app
