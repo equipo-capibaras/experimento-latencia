@@ -8,7 +8,7 @@ data "google_iam_policy" "default" {
   binding {
     role = "roles/run.invoker"
     members = [
-      "allUsers"
+      google_service_account.apigateway.member
     ]
   }
 }
