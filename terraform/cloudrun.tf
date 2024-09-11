@@ -33,6 +33,11 @@ resource "google_cloud_run_v2_service" "default" {
         value = "1"
       }
 
+      env {
+        name = "ENABLE_CLOUD_TRACE"
+        value = "1"
+      }
+
       startup_probe {
         http_get {
           path = "/ping"
