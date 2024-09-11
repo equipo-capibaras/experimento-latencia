@@ -2,7 +2,7 @@ from flask import Flask
 from blueprints import BlueprintHealth, BlueprintInvoice
 from repositories import InvoiceRepository
 from repositories.firestore import FirestoreInvoiceRepository
-from gcp import setup_cloud_logging, setup_cloud_trace
+from gcp import setup_cloud_logging, setup_cloud_trace, setup_apigateway
 
 API_PREFIX = "/v1/invoices"
 
@@ -12,6 +12,7 @@ def create_app():
     app = Flask(__name__)
 
     setup_cloud_trace(app)
+    setup_apigateway(app)
 
     app.repositories = {InvoiceRepository: FirestoreInvoiceRepository()}
 
