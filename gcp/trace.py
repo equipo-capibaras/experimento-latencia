@@ -110,6 +110,14 @@ def _send_traces(sender, **extra):
         spans=gcp_spans
     )
 
+def TraceFunction(display_name):
+    def decorator(func):
+        def wrapper(*args, **kwargs):
+            with TraceSpan(display_name):
+                return func(*args, **kwargs)
+        return wrapper
+    return decorator
+
 def setup_cloud_trace(app):
     if os.getenv('ENABLE_CLOUD_TRACE') == '1':
         app.cloud_trace_client = TraceServiceClient()
