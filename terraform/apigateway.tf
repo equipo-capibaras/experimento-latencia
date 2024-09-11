@@ -26,3 +26,33 @@ resource "google_api_gateway_api" "default" {
     google_project_service.servicemanagement
   ]
 }
+
+locals {
+  openapi_spec = templatefile("ABCall.swagger.yaml", {
+    invoice_url = "https://${local.service_name}-${data.google_project.default.number}.${local.region}.run.app"
+  })
+}
+
+resource "google_api_gateway_api_config" "default" {
+  provider = google-beta
+  api = google_api_gateway_api.default.api_id
+  api_config_id = "${local.api_id}-config"
+
+  openapi_documents {
+    document {
+      path = "spec.yaml"
+      contents = base64encode(local.openapi_spec)
+    }
+  }
+
+  lifecycle {
+    create_before_destroy = true
+  }
+}
+
+resource "google_api_gateway_gateway" "default" {
+  provider = google-beta
+  api_config = google_api_gateway_api_config.default.id
+  gateway_id = "${local.api_id}-gw"
+  region = local.region
+}
