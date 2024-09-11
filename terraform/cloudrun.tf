@@ -21,7 +21,7 @@ resource "google_cloud_run_v2_service" "default" {
 
   template {
     execution_environment = "EXECUTION_ENVIRONMENT_GEN2"
-    service_account = google_service_account.default.email
+    service_account = google_service_account.service.email
 
     containers {
       name = "app"

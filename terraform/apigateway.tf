@@ -36,12 +36,17 @@ locals {
 resource "google_api_gateway_api_config" "default" {
   provider = google-beta
   api = google_api_gateway_api.default.api_id
-  api_config_id = "${local.api_id}-config"
 
   openapi_documents {
     document {
       path = "spec.yaml"
       contents = base64encode(local.openapi_spec)
+    }
+  }
+
+  gateway_config {
+    backend_config {
+      google_service_account = google_service_account.apigateway.email
     }
   }
 
