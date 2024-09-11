@@ -18,5 +18,5 @@ resource "google_firestore_database" "default" {
 resource "google_project_iam_member" "firestore" {
   project = local.project_id
   role    = "roles/datastore.user"
-  member  = "serviceAccount:${google_service_account.service.email}"
+  member  = google_service_account.service.member
 }

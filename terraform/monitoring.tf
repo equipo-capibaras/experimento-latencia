@@ -7,7 +7,7 @@ resource "google_project_service" "cloudtrace" {
 resource "google_project_iam_member" "cloudtrace" {
   project = local.project_id
   role    = "roles/cloudtrace.agent"
-  member  = "serviceAccount:${google_service_account.service.email}"
+  member  = google_service_account.service.member
 
   depends_on = [ google_project_service.cloudtrace ]
 }
