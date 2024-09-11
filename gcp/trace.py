@@ -67,6 +67,9 @@ class TraceSpan:
         g.spans_level = g.spans_level + 1
 
     def __exit__(self, exc_type, exc_val, exc_tb):
+        if not hasattr(current_app, 'cloud_trace_client'):
+            return
+
         if 'trace_ignore' in g and g.trace_ignore == True:
             return
 
