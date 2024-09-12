@@ -40,13 +40,13 @@ resource "google_cloud_run_v2_service" "default" {
 
       startup_probe {
         http_get {
-          path = "/ping"
+          path = "/v1/health/invoice"
         }
       }
 
       liveness_probe {
         http_get {
-          path = "/ping"
+          path = "/v1/health/invoice"
         }
       }
 

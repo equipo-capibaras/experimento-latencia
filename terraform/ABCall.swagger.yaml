@@ -18,6 +18,7 @@ paths:
           required: true
           format: uuid
           type: string
+          x-example: '{% faker datatype.uuid %}'
       responses:
         '200':
           description: ''
@@ -27,6 +28,28 @@ paths:
             properties: {}
       security:
         - tokenAdmin: []
+      produces:
+        - application/json
+      x-google-backend:
+        address: "${invoice_url}"
+        protocol: h2
+        path_translation: APPEND_PATH_TO_ADDRESS
+  /v1/health/invoice:
+    get:
+      summary: Health check
+      deprecated: false
+      description: ''
+      operationId: healthInvoice
+      tags: []
+      parameters: []
+      responses:
+        '200':
+          description: ''
+          headers: {}
+          schema:
+            type: object
+            properties: {}
+      security: []
       produces:
         - application/json
       x-google-backend:
